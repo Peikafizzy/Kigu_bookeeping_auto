@@ -1,0 +1,96 @@
+TALENTS = [
+    ("Tokino Sora", "JP", "Gen 0"),
+    ("Robocosan", "JP", "Gen 0"),
+    ("Sakura Miko", "JP", "Gen 0"),
+    ("Hoshimachi Suisei", "JP", "Gen 0"),
+    ("AZKi", "JP", "Gen 0"),
+
+    ("Aki Rosenthal", "JP", "Gen 1"),
+    ("Akai Haato", "JP", "Gen 1"),
+    ("Shirakami Fubuki", "JP", "Gen 1 / GAMERS"),
+    ("Natsuiro Matsuri", "JP", "Gen 1"),
+    ("Yozora Mel", "JP", "Gen 1"),
+    ("Hitomi Chris", "JP", "Gen 1"),
+
+    ("Minato Aqua", "JP", "Gen 2"),
+    ("Murasaki Shion", "JP", "Gen 2"),
+    ("Nakiri Ayame", "JP", "Gen 2"),
+    ("Yuzuki Choco", "JP", "Gen 2"),
+    ("Oozora Subaru", "JP", "Gen 2"),
+
+    ("Ookami Mio", "JP", "GAMERS"),
+    ("Nekomata Okayu", "JP", "GAMERS"),
+    ("Inugami Korone", "JP", "GAMERS"),
+
+    ("Usada Pekora", "JP", "Gen 3"),
+    ("Shiranui Flare", "JP", "Gen 3"),
+    ("Shirogane Noel", "JP", "Gen 3"),
+    ("Houshou Marine", "JP", "Gen 3"),
+    ("Uruha Rushia", "JP", "Gen 3"),
+
+    ("Amane Kanata", "JP", "Gen 4"),
+    ("Kiryu Coco", "JP", "Gen 4"),
+    ("Tsunomaki Watame", "JP", "Gen 4"),
+    ("Tokoyami Towa", "JP", "Gen 4"),
+    ("Himemori Luna", "JP", "Gen 4"),
+
+    ("Yukihana Lamy", "JP", "Gen 5"),
+    ("Momosuzu Nene", "JP", "Gen 5"),
+    ("Shishiro Botan", "JP", "Gen 5"),
+    ("Omaru Polka", "JP", "Gen 5"),
+    ("Mano Aloe", "JP", "Gen 5"),
+
+    ("La+ Darknesss", "JP", "holoX"),
+    ("Takane Lui", "JP", "holoX"),
+    ("Hakui Koyori", "JP", "holoX"),
+    ("Sakamata Chloe", "JP", "holoX"),
+    ("Kazama Iroha", "JP", "holoX"),
+
+    ("Ayunda Risu", "ID", "Gen 1"),
+    ("Moona Hoshinova", "ID", "Gen 1"),
+    ("Airani Iofifteen", "ID", "Gen 1"),
+
+    ("Kureiji Ollie", "ID", "Gen 2"),
+    ("Anya Melfissa", "ID", "Gen 2"),
+    ("Pavolia Reine", "ID", "Gen 2"),
+
+    ("Vestia Zeta", "ID", "Gen 3"),
+    ("Kaela Kovalskia", "ID", "Gen 3"),
+    ("Kobo Kanaeru", "ID", "Gen 3"),
+
+    ("Mori Calliope", "EN", "Myth"),
+    ("Takanashi Kiara", "EN", "Myth"),
+    ("Ninomae Ina'nis", "EN", "Myth"),
+    ("Watson Amelia", "EN", "Myth"),
+    ("Gawr Gura", "EN", "Myth"),
+
+    ("IRyS", "EN", "Promise"),
+    ("Ouro Kronii", "EN", "Promise"),
+    ("Hakos Baelz", "EN", "Promise"),
+    ("Tsukumo Sana", "EN", "Council"),
+    ("Ceres Fauna", "EN", "Promise"),
+    ("Nanashi Mumei", "EN", "Promise"),
+
+    ("Shiori Novella", "EN", "Advent"),
+    ("Koseki Bijou", "EN", "Advent"),
+    ("Nerissa Ravencroft", "EN", "Advent"),
+    ("Fuwawa Abyssgard", "EN", "Advent"),
+    ("Mococo Abyssgard", "EN", "Advent"),
+
+    ("Elizabeth Rose Bloodflame", "EN", "Justice"),
+    ("Gigi Murin", "EN", "Justice"),
+    ("Cecilia Immergreen", "EN", "Justice"),
+    ("Raora Panthera", "EN", "Justice"),
+
+    ("Hiodoshi Ao", "DEV_IS", "ReGLOSS"),
+    ("Otonose Kanade", "DEV_IS", "ReGLOSS"),
+    ("Ichijou Ririka", "DEV_IS", "ReGLOSS"),
+    ("Juufuutei Raden", "DEV_IS", "ReGLOSS"),
+    ("Todoroki Hajime", "DEV_IS", "ReGLOSS"),
+
+    ("Isaki Riona", "DEV_IS", "FLOW GLOW"),
+    ("Koganei Niko", "DEV_IS", "FLOW GLOW"),
+    ("Mizumiya Su", "DEV_IS", "FLOW GLOW"),
+    ("Rindo Chihaya", "DEV_IS", "FLOW GLOW"),
+    ("Kikirara Vivi", "DEV_IS", "FLOW GLOW"),
+]
