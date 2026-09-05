@@ -1,32 +1,12 @@
 from app.database import init_database, seed_talents, get_talents, add_kigu_player, add_social_account, \
-    get_talent_by_name, add_appearance, get_player_details
+    get_talent_by_name, add_appearance, get_player_details, get_kigu_players, deactivate_kigu_player, \
+    add_is_active_column
 
 
 def main():
     init_database()
     seed_talents()
-
-    details = get_player_details()
-
-    for row in details:
-        print(
-            row["player_code"],
-            "|",
-            row["public_name"],
-            "|",
-            row["region"],
-            "|",
-            row["maker"],
-            "| Talent:",
-            row["talent_name"],
-            "|",
-            row["branch"],
-            row["unit"],
-            "|",
-            row["platform"],
-            row["handle"],
-            row["url"]
-        )
+    print("Database rebuilt and talents seeded.")
 
 
 if __name__ == "__main__":

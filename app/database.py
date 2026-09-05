@@ -4,97 +4,27 @@ from pathlib import Path
 from app.seed_talents import TALENTS
 
 DB_PATH = Path("data/kigu.db")
-
+SCHEMA_PATH = Path("app/schema.sql")
 
 def get_connection():
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
 
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
+    conn.execute("PRAGMA foreign_keys = ON")
 
     return conn
+
+def init_database():
+    schema = SCHEMA_PATH.read_text(encoding="utf-8")
+
+    with get_connection() as conn:
+        conn.executescript(schema)
 
 if __name__ == "__main__":
     conn = get_connection()
     print("Connected to:", DB_PATH)
     conn.close()
-
-def init_database():
-    with get_connection() as conn:
-        conn.execute("""
-            CREATE TABLE IF NOT EXISTS talent (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL UNIQUE,
-                branch TEXT NOT NULL,
-                unit TEXT
-            )
-        """)
-
-        conn.execute("""
-            CREATE TABLE IF NOT EXISTS kigu_player (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                player_code TEXT NOT NULL UNIQUE,
-                public_name TEXT NOT NULL,
-                region TEXT NOT NULL,
-                maker TEXT,
-                notes TEXT
-            )
-        """)
-
-        conn.execute("""
-            CREATE TABLE IF NOT EXISTS social_account (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                player_id INTEGER NOT NULL,
-                platform TEXT NOT NULL,
-                handle TEXT,
-                url TEXT,
-
-                FOREIGN KEY (player_id)
-                    REFERENCES kigu_player(id)
-                    ON DELETE CASCADE
-            )
-        """)
-
-        conn.execute("""
-            CREATE TABLE IF NOT EXISTS appearance (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                talent_id INTEGER NOT NULL,
-                player_id INTEGER NOT NULL,
-
-                FOREIGN KEY (talent_id)
-                    REFERENCES talent(id)
-                    ON DELETE CASCADE,
-
-                FOREIGN KEY (player_id)
-                    REFERENCES kigu_player(id)
-                    ON DELETE CASCADE,
-
-                UNIQUE (talent_id, player_id)
-            )
-        """)
-
-        conn.execute("""
-            CREATE TABLE IF NOT EXISTS appearance_image (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                appearance_id INTEGER NOT NULL,
-                image_path TEXT,
-                source_url TEXT,
-
-                FOREIGN KEY (appearance_id)
-                    REFERENCES appearance(id)
-                    ON DELETE CASCADE
-            )
-        """)
-
-def get_connection():
-    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
-
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-
-    conn.execute("PRAGMA foreign_keys = ON")
-
-    return conn
 
 def add_talent(name, branch, unit):
     with get_connection() as conn:
@@ -128,23 +58,31 @@ def seed_talents():
         )
 
 def add_kigu_player(player_code, public_name, region, maker=None, notes=None):
+    player_code, region_number = generate_player_code(region)
+
     with get_connection() as conn:
         cursor = conn.execute(
             """
-            INSERT INTO kigu_player (
+            INSERT INTO kigu_player (player_code,
+                                     public_name,
+                                     region,
+                                     region_number,
+                                     maker,
+                                     notes,
+                                     is_active)
+            VALUES (?, ?, ?, ?, ?, ?, 1)
+            """,
+            (
                 player_code,
                 public_name,
                 region,
+                region_number,
                 maker,
                 notes
             )
-            VALUES (?, ?, ?, ?, ?)
-            """,
-            (player_code, public_name, region, maker, notes)
         )
 
-        return cursor.lastrowid
-
+        return cursor.lastrowid, player_code
 
 def add_social_account(player_id, platform, handle, url):
     with get_connection() as conn:
@@ -218,3 +156,75 @@ def get_player_details():
             ORDER BY kp.id
             """
         ).fetchall()
+
+def generate_player_code(region):
+    with get_connection() as conn:
+        row = conn.execute(
+            """
+            SELECT MAX(region_number) AS max_number
+            FROM kigu_player
+            WHERE region = ?
+            """,
+            (region,)
+        ).fetchone()
+
+        next_number = (row["max_number"] or 0) + 1
+
+        return f"{region}{next_number:04d}", next_number
+
+def deactivate_kigu_player(player_id):
+    with get_connection() as conn:
+        conn.execute(
+            """
+            UPDATE kigu_player
+            SET is_active = 0
+            WHERE id = ?
+            """,
+            (player_id,)
+        )
+
+def reactivate_kigu_player(player_id):
+    with get_connection() as conn:
+        conn.execute(
+            """
+            UPDATE kigu_player
+            SET is_active = 1
+            WHERE id = ?
+            """,
+            (player_id,)
+        )
+
+def get_kigu_players():
+    with get_connection() as conn:
+        return conn.execute(
+            """
+            SELECT *
+            FROM kigu_player
+            WHERE is_active = 1
+            ORDER BY id
+            """
+        ).fetchall()
+
+def add_is_active_column():
+    with get_connection() as conn:
+        conn.execute("""
+            ALTER TABLE kigu_player
+            ADD COLUMN is_active INTEGER NOT NULL DEFAULT 1
+        """)
+
+def generate_player_code(region):
+    with get_connection() as conn:
+        row = conn.execute(
+            """
+            SELECT MAX(region_number) AS max_number
+            FROM kigu_player
+            WHERE region = ?
+            """,
+            (region,)
+        ).fetchone()
+
+        next_number = (row["max_number"] or 0) + 1
+
+        player_code = f"{region}{next_number:04d}"
+
+        return player_code, next_number
