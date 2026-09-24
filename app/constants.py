@@ -9,3 +9,12 @@ REGIONS = {
     "OCE": "Oceania",
     "OTH": "Other",
 }
+
+FRANCHISE_CATEGORIES = [
+    "VTuber",
+    "Anime",
+    "Game",
+    "Manga",
+    "Original",
+    "Other",
+]
